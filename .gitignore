@@ -1,0 +1,10 @@
+
+#build files
+Build/
+
+#vscode
+.vscode/
+
+#Mac OS directoires
+.DS_Store
+__MACOSX/
