@@ -8,3 +8,6 @@ Build/
 #Mac OS directoires
 .DS_Store
 __MACOSX/
+
+pixlhide
+pixlhide.exe
