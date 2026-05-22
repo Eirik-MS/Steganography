@@ -1,16 +1,14 @@
 #pragma once
 
 typedef struct {
-    int distribute;
-    int recover;
+    // 1 for distribute, 0 for recover
+    int type; 
 
     char *secret_image;
 
     int k;
     int n;
-
-    int n_provided;
-
+    
     char *directory;
 } ProgramOptions;
 

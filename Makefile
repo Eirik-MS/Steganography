@@ -30,7 +30,7 @@ $(BUILD_DIR):
 
 # Build and run
 run: all
-	./$(TARGET)
+	./$(TARGET) -d -secret Evassd.bmp -k 2 -n 3 -dir Images
 
 # Remove build files and executable
 clean:
