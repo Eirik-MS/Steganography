@@ -8,7 +8,7 @@
 
 static char *build_filepath(const char *dir, const char *filename);
 
-//FIX: Make more robust int parsing
+//TODO: Make more robust int parsing
 int argparse(int argc, char *argv[], ProgramOptions *options) {
     #ifdef VERBOSE_DEBUG
     for (int i = 0; i < argc; i++) {

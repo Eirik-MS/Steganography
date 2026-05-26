@@ -9,6 +9,7 @@ BMPImage_t image = {0};
 
 int main (int argc, char *argv[]) {
 
+    // Parse arguemnts and open the BMP file.
     if (argparse(argc, argv, &options) != 0){
         return ARGPARSE_ERROR;
     }
@@ -22,6 +23,8 @@ int main (int argc, char *argv[]) {
     if (read_bmp_headers(options.filepath, &image) != 0){
         return BMPFILEHEADER_ERROR;
     }
+
+    //TODO: Implement the distribution and recovery logic here.
 
 
     bmp_image_free(&image);
