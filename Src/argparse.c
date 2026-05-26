@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "argparse.h"
+#include "env.h"
 
 static char *build_filepath(const char *dir, const char *filename);
 

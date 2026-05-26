@@ -2,11 +2,10 @@
 
 #include "argparse.h"
 #include "bmp.h"
-
-//Uncomment for verbose debug output
-//#define VERBOSE_DEBUG
+#include "env.h"
 
 ProgramOptions options = {0};
+BMPImage_t image = {0}; 
 
 int main (int argc, char *argv[]) {
 
@@ -20,8 +19,12 @@ int main (int argc, char *argv[]) {
         printf("Recovering with k=%d and n=%d\n", options.k, options.n);
     }
 
-    read_bmp_headers(options.filepath);
-    
+    if (read_bmp_headers(options.filepath, &image) != 0){
+        return BMPFILEHEADER_ERROR;
+    }
+
+
+    bmp_image_free(&image);
     argparse_free(&options);
     return 0;
 }
