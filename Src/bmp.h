@@ -33,6 +33,10 @@ typedef struct {
     unsigned char       *pixel;            // heap-allocated pixel buffer
 } BMPImage_t;
 
+
+
+StringList_t *find_validate_bmp_files(char * filepath);
+
 //-----------------------------------------------------
 // @brief: Takes a file path to a BMP image and a pointer to a BMPImage_t struct. 
 //        Populating the BMPImage_t struct with the data from the image found at the filepath. 
@@ -42,14 +46,14 @@ typedef struct {
 // @param: image - a pointer to a BMPImage_t struct to be populated with the image data
 // @return: 0 on success, or an error code if it encounters issues
 //-----------------------------------------------------
-int read_bmp_headers(char * filepath, BMPImage_t *image);
+int read_bmp_file(char * filepath, BMPImage_t *image);
 
 //-----------------------------------------------------
 // @brief: Frees the memory allocated for the image.
 //
 // @param: image - a pointer to a BMPImage_t struct whose allocated memory will be freed
 //-----------------------------------------------------
-void bmp_image_free(BMPImage_t *image);
+void free_bmp_img(BMPImage_t *image);
 
 void printFileHeader(BMPFileHeader_t fileHeader);
 void printImageHeader(BMPImageHeader_t imageHeader);

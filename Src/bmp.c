@@ -1,18 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <dirent.h>
 
-
+#include "utils.h"
 #include "env.h"
 #include "bmp.h"
 
-int read_bmp_headers(char * filepath, BMPImage_t *image){
+static int has_bmp_extension(const char *filename);
+
+int read_bmp_file(char * filepath, BMPImage_t *image){
     FILE *file = fopen(filepath, "rb");
     if (file == NULL) {
         fprintf(stderr, "Could not open file %s\n", filepath);
         return BMPFILEHEADER_ERROR;
     }
-    
-    
     
     
     fread(&image->fileHeader, sizeof(BMPFileHeader_t), 1, file);
@@ -58,8 +60,66 @@ int read_bmp_headers(char * filepath, BMPImage_t *image){
     return 0;
 }
 
+StringList_t *find_validate_bmp_files(char * filepath){
+    // Arbitrary initial size, will be resized if needed.
+    StringList_t *list = malloc(sizeof(StringList_t));
+    list->items = malloc(sizeof(char*) * 10);
+    list->count = 0;
+    list->capacity = 10;
+    struct dirent *entry;
 
-void bmp_image_free(BMPImage_t *image) {
+    DIR *dir = opendir(filepath);
+
+    if (dir == NULL) {
+        fprintf(stderr, "Could not open directory %s\n", filepath);
+        return NULL;
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+        if (has_bmp_extension(entry->d_name)) {
+            char* combined_path = build_filepath(filepath, entry->d_name);
+            if (combined_path == NULL) {
+                fprintf(stderr, "Could not build path to file %s\n", entry->d_name);
+                continue;
+            }
+            FILE *file = fopen(combined_path, "rb");
+            BMPFileHeader_t fileHeader;
+            if (file == NULL) {
+                fprintf(stderr, "Could not open file %s\n", entry->d_name);
+                continue;
+            }
+            fread(&fileHeader, sizeof(BMPFileHeader_t), 1, file);
+            if (fileHeader.bfType[0] != 'B' || fileHeader.bfType[1] != 'M') {
+                fprintf(stderr, "Error: Not a valid BMP file: %s\n", entry->d_name);
+                fclose(file);
+                continue;
+            }
+            list->items[list->count++] = combined_path;
+            fclose(file);            
+            
+        }
+
+        //Incrementally resize the list if we exceed capacity
+        if (list->count >= list->capacity) {
+            list->capacity *= 2;
+            char **new_list = realloc(list->items, sizeof(char*) * list->capacity);
+            if (new_list == NULL) {
+                fprintf(stderr, "Error: Could not reallocate memory for file list\n");
+                free(list);
+                closedir(dir);
+                return NULL;
+            }
+            list->items = new_list;
+        }
+    }    
+
+    closedir(dir);
+    return list;
+}
+
+
+
+void free_bmp_img(BMPImage_t *image) {
     if (image->pixel) {
         free(image->pixel);
         image->pixel = NULL;
@@ -68,6 +128,13 @@ void bmp_image_free(BMPImage_t *image) {
         free(image->colorTab);
         image->colorTab = NULL;
     }
+}
+
+
+static int has_bmp_extension(const char *filename) {
+    const char *dot = strrchr(filename, '.');
+    if (!dot || dot == filename) return 0;
+    return strcmp(dot, ".bmp") == 0;
 }
 
 void printFileHeader(BMPFileHeader_t fileHeader) {

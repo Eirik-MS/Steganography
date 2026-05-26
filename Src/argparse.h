@@ -2,7 +2,7 @@
 
 typedef struct {
     // 1 for distribute, 0 for recover
-    int type; 
+    int distribute; 
 
     char *image_name;
 
@@ -30,3 +30,5 @@ int argparse(int argc, char *argv[], ProgramOptions *options);
 // @param: options - a pointer to a ProgramOptions struct whose allocated memory will be freed
 //-----------------------------------------------------
 void argparse_free(ProgramOptions *options);
+
+

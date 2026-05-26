@@ -7,7 +7,12 @@ The requirements for the project is translated and put into a markdown file [Pra
 # Make and run program 
 
 To run this program you will need Make and gcc (or similar) compiler. 
-To see avaliable compile targets use the command ```make```, and use ```make run``` to execute program rigth after compilation. ```make clean``` deleates all build-files.
+To see avaliable compile targets use the command ```make```, and use ```make run``` to execute program rigth after compilation. ```make clean``` deleates all build-files. For a list of all build targets use ```make help```. 
+
+For verbose debug use ```make clean``` to clean working directory and then run the make command with the extra c flag verbose debug:
+```
+make run CFLAGS+="-DVERBOSE_DEBUG"
+```
 
 To use the program the following TWO modes are supported
 

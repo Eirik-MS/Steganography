@@ -2,7 +2,7 @@
 
 # Compiler and flags
 CC      := gcc
-CFLAGS  := -Wall -Wextra -g -O0 -DVERBOSE_DEBUG
+CFLAGS  := -Wall -Wextra -g -O0
 CFLAGS_RELEASE := -Wall -Wextra -O2
 LDFLAGS :=
 
