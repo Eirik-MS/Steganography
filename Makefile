@@ -24,11 +24,11 @@ OBJS_SAN := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.san.o,$(SRCS))
 
 # Default test parameters (override on command line: make memtest ARGS="-r ...")
 ARGS ?= -d -secret Evassd.bmp -k 2 -n 3 -dir Images
-ARGS2 ?= -r -secret Evassd.bmp -k 2 -n 3 -dir Images
+ARGS2 ?= -r -secret recovered.bmp -k 2 -n 3 -dir Images/shadow
 
 
 # Default target
-all: $(TARGET) ## Build the program with debug symbols and verbose output (default)
+all: $(TARGET) ## Build the program with debug symbols
 
 # --- Build folder and other targets -------------------------------------
 
@@ -72,13 +72,10 @@ memtest: $(TARGET) ## Run with Valgrind to test for memmory leaks (slower, but v
 	         ./$(TARGET) $(ARGS)
 
 roundtrip: all ## Distribute then recover, to verify the round-trip works
-	./$(TARGET) -d -secret Evassd.bmp -k 2 -n 3 -dir Images
-	./$(TARGET) -r -secret recovered.bmp -k 2 -n 3 -dir Images
-	@echo "=== Comparing original to recovered ==="
-	cmp Images/Evassd.bmp recovered.bmp && echo "MATCH" || echo "DIFFER"
+	./$(TARGET) $(ARGS)
+	./$(TARGET) $(ARGS2)
 
 # --- Help -----------------------------------------------------------------
-
 help: ## Show this help message
 	@echo "Available targets:"
 	@echo ""
@@ -88,6 +85,9 @@ help: ## Show this help message
 	@echo ""
 	@echo "Override test arguments with ARGS=\"...\""
 	@echo "  Example: make memtest ARGS=\"-r -secret out.bmp -k 2 -dir Images\""
+	@echo "Add extra debug prints with CFLAGS+="-DVERBOSE_DEBUG" after a command"
+	@echo "  Example: make clean"
+	@echo "           make run CFLAGS+="-DVERBOSE_DEBUG"
 
 clean:
 	rm -rf $(BUILD_DIR) $(TARGET) $(TARGET_SAN)

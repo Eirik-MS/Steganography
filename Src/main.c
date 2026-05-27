@@ -8,7 +8,6 @@
 
 ProgramOptions options = {0};
 
-
 int main (int argc, char *argv[]) {
     int num_of_img = 0;
 
@@ -16,7 +15,7 @@ int main (int argc, char *argv[]) {
     if (argparse(argc, argv, &options) != 0){
         return ARGPARSE_ERROR;
     }
-    
+
 
     if (options.distribute){
         //---------------------------------------------------------------------
