@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "argparse.h"
 #include "utils.h"
@@ -15,6 +17,7 @@ int main (int argc, char *argv[]) {
     if (argparse(argc, argv, &options) != 0){
         return ARGPARSE_ERROR;
     }
+    
 
 
     if (options.distribute){
@@ -28,6 +31,7 @@ int main (int argc, char *argv[]) {
         }
         //TODO: Implement the distribution logic here. 
 
+ 
         free_bmp_img(&Image);
     } else {
         //---------------------------------------------------------------------

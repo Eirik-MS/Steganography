@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <errno.h>
 
 #include "utils.h"
 
@@ -45,6 +47,24 @@ char *build_filepath(const char *dir, const char *filename) {
 
     return result;
 }
+
+int verify_make_folder(char * filename){
+    struct stat st;
+    if (mkdir(filename, 0755) == 0) {
+        return 1;
+    } else if (errno == EEXIST) {
+        if (stat("mydir", &st) == 0 && S_ISDIR(st.st_mode)) {
+            // It exists and is a directory
+            return 1;
+        } else {
+            return 0;
+        }
+    } else {
+        perror("mkdir");
+        return 0;
+    }
+}
+
 
 void free_stringlist(StringList_t * list){
     for (int i = 0; i < list->count; ++i) {

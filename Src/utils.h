@@ -31,3 +31,9 @@ void free_stringlist(StringList_t * list);
  * 
  */
 char *build_filepath(const char *dir, const char *filename);
+
+/**
+ * @brief Verify that the given folder exist and make it if it dosent
+ * @return 1 on sucsess and 0 on faliure
+ */
+int verify_make_folder(char * filename);

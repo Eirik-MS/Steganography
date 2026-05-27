@@ -61,7 +61,18 @@ int read_bmp_file(char * filepath, BMPImage_t *image);
  * @brief: Frees the memory allocated for the image.
  * @param: image - a pointer to a BMPImage_t struct whose allocated memory will be freed
  */
- void free_bmp_img(BMPImage_t *image);
+void free_bmp_img(BMPImage_t *image);
+
+/**
+ * @brief Create and write a bmp image to disk
+ * 
+ * @param : image - a pointer to a BMPImage_t struct containing the data for the image
+ * @param: filepath - a string representing the path where the bmp image will be written
+ * @param: filename - a string representing the name of the file that will be created
+ * 
+ * @return: 1 on sucsess
+ */
+int write_bmp_file(BMPImage_t *image, char *filepath, char *filename);
 
 void printFileHeader(BMPFileHeader_t fileHeader);
 void printImageHeader(BMPImageHeader_t imageHeader);

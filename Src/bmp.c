@@ -60,6 +60,14 @@ int read_bmp_file(char * filepath, BMPImage_t *image){
     return 0;
 }
 
+int write_bmp_file(BMPImage_t *image, char *filepath, char *filename){
+    verify_make_folder(filepath);
+    FILE *outputFILE = fopen(filepath, "wb");
+
+    return 1;
+}
+
+
 StringList_t *find_validate_bmp_files(char * filepath){
     // Arbitrary initial size, will be resized if needed.
     StringList_t *list = malloc(sizeof(StringList_t));
